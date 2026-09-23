@@ -1,6 +1,25 @@
-@TodoApi_HostAddress = http://localhost:5064
+@TodoApi_HostAddress = https://localhost:7130
 
 GET {{TodoApi_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+POST {{TodoApi_HostAddress}}/api/todoitems
+Content-Type: application/json
+
+{
+  "name": "Första todon",
+  "description": "Detta är den första todon",
+  "isComplete": false
+}
+
+###
+
+GET {{TodoApi_HostAddress}}/api/todoitems
+
+###
+
+GET {{TodoApi_HostAddress}}/api/todoitems/{dc890681-fda6-4295-ae59-cfabe6d6986b}
 
 ###
