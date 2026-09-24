@@ -5,21 +5,16 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import type { Todo } from "../api/types";
 import { FormControlLabel, FormGroup } from "@mui/material";
-import { useTodos } from "../api/hooks/use-todos";
 import { Checkbox } from "@mui/material";
 
 type CardProps = {
 	todo: Todo;
 	handleTodoStatus?: () => void;
 	handleTodoEdit?: () => void;
+	handleToggleStatus: (id: string) => Promise<Todo | undefined>;
 };
 
 export default function TodoCard({ ...props }: CardProps) {
-	const { handleToggleStatus } = useTodos();
-	const changeStatus = () => {
-		handleToggleStatus(props.todo.id);
-	};
-
 	return (
 		<Card sx={{ minWidth: 350 }} className="flex flex-col justify-between">
 			<CardContent>
@@ -36,7 +31,7 @@ export default function TodoCard({ ...props }: CardProps) {
 						control={
 							<Checkbox
 								checked={props.todo.isComplete}
-								onChange={changeStatus}
+								onChange={() => props.handleToggleStatus(props.todo.id)}
 							/>
 						}
 						label="Är gjord"

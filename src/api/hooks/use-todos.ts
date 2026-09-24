@@ -18,14 +18,22 @@ export const useTodos = () => {
 		}
 	};
 
-	const handleToggleStatus = async (id: string) => {
+	const handleToggleStatus = async (id: string): Promise<Todo | undefined> => {
 		try {
 			const data = await toggleStatus(id);
+
 			if (data) {
-				handleLoadData();
+				setTodos((todos) =>
+					todos.map((todo) =>
+						todo.id === id ? { ...todo, isComplete: data.isComplete } : todo,
+					),
+				);
 			}
+
+			return data;
 		} catch (error) {
 			console.error(error);
+			return undefined;
 		}
 	};
 

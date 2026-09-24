@@ -4,7 +4,7 @@ import { useTodos } from "./api/hooks/use-todos";
 import TodoCard from "./components/todo-card";
 
 function App() {
-	const { todos, isLoading, handleLoadData } = useTodos();
+	const { todos, isLoading, handleLoadData, handleToggleStatus } = useTodos();
 
 	useEffect(() => {
 		handleLoadData();
@@ -16,7 +16,13 @@ function App() {
 				{isLoading ? (
 					<p>Laddar</p>
 				) : (
-					todos.map((t) => <TodoCard key={t.id} todo={t} />)
+					todos.map((t) => (
+						<TodoCard
+							key={t.id}
+							todo={t}
+							handleToggleStatus={handleToggleStatus}
+						/>
+					))
 				)}
 			</div>
 		</div>
