@@ -11,7 +11,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="w-full flex justify-center">
+		<div className="w-full p-8 flex justify-center">
 			<div className="flex flex-col gap-6">
 				{isLoading ? (
 					<p>Laddar</p>
