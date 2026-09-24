@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Model.Dto;
+using TodoApi.Model.ViewModel;
 using TodoApi.Model.Entity;
 using TodoApi.Models;
 
@@ -16,16 +17,16 @@ public class TodoItemsController : ControllerBase
 
     // GET: api/TodoItem
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItem()
+    public async Task<ActionResult<IEnumerable<TodoItemViewModel>>> GetTodoItem()
     {
         return await _context.TodoItems
-            .Select(x => ItemToDTO(x))
+            .Select(x => ItemToViewModel(x))
             .ToListAsync();
     }
 
     // GET: api/TodoItem/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<TodoItemDTO>> GetTodoItem(Guid id)
+    public async Task<ActionResult<TodoItemViewModel>> GetTodoItem(Guid id)
     {
         var todoitem = await _context.TodoItems.FindAsync(id);
 
@@ -34,13 +35,13 @@ public class TodoItemsController : ControllerBase
             return NotFound();
         }
 
-        return ItemToDTO(todoitem);
+        return ItemToViewModel(todoitem);
     }
 
     // PUT: api/TodoItem/{id}
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem(Guid? id, TodoItemDTO todoDTO)
+    public async Task<IActionResult> PutTodoItem(Guid? id, PutTodoItemDTO todoDTO)
     {
         if (id != todoDTO.Id)
         {
@@ -54,7 +55,7 @@ public class TodoItemsController : ControllerBase
         }
 
         todoItem.Name = todoDTO.Name;
-        todoItem.IsComplete = todoDTO.IsComplete;
+        todoItem.Description = todoDTO.Description;
 
         try
         {
@@ -71,29 +72,29 @@ public class TodoItemsController : ControllerBase
     [HttpPut("toggle-status/{id}")]
     public async Task<IActionResult> ToggleTodoStatus(Guid? id)
     {
-      var todo = await _context.TodoItems.FindAsync(id);
+        var todo = await _context.TodoItems.FindAsync(id);
 
-      if (id != todo.Id)
-      {
-        return BadRequest();
-      }
+        if (todo == null)
+        {
+            return BadRequest();
+        }
 
-      todo.IsComplete = !todo.IsComplete;
-      await _context.SaveChangesAsync();
+        todo.IsComplete = !todo.IsComplete;
+        await _context.SaveChangesAsync();
 
-      return Ok(200);
+        return Ok(todo);
     }
 
-  // POST: api/TodoItem
-  // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-  [HttpPost]
-    public async Task<ActionResult<TodoItemDTO>> PostTodoItem(TodoItemDTO todoDTO)
+    // POST: api/TodoItem
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost]
+    public async Task<ActionResult<TodoItemViewModel>> PostTodoItem(PostTodoItemDTO todoDTO)
     {
         var todoItem = new TodoItem
         {
-            IsComplete = todoDTO.IsComplete,
             Name = todoDTO.Name,
-            Description = todoDTO.Description
+            Description = todoDTO.Description,
+            IsComplete = false
         };
 
         _context.TodoItems.Add(todoItem);
@@ -102,7 +103,7 @@ public class TodoItemsController : ControllerBase
         return CreatedAtAction(
           nameof(GetTodoItem),
           new { id = todoItem.Id },
-          ItemToDTO(todoItem));
+          ItemToViewModel(todoItem));
     }
 
     // DELETE: api/TodoItem/5
@@ -126,9 +127,9 @@ public class TodoItemsController : ControllerBase
         return _context.TodoItems.Any(e => e.Id == id);
     }
 
-    private static TodoItemDTO ItemToDTO(TodoItem todoItem)
+    private static TodoItemViewModel ItemToViewModel(TodoItem todoItem)
     {
-        return new TodoItemDTO
+        return new TodoItemViewModel
         {
             Id = todoItem.Id,
             Name = todoItem.Name,

@@ -10,9 +10,7 @@ Content-Type: application/json
 
 {
   "name": "todo",
-  "description": "Detta är en todon",
-  "isComplete": false,
-  "secret": ""
+  "description": "Detta är en todo"
 }
 
 ###
