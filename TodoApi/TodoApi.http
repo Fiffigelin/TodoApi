@@ -9,9 +9,9 @@ POST {{TodoApi_HostAddress}}/api/todoitems
 Content-Type: application/json
 
 {
-  "name": "Andra todon",
-  "description": "Detta är den andra todon",
-  "isComplete": true,
+  "name": "todo",
+  "description": "Detta är en todon",
+  "isComplete": false,
   "secret": ""
 }
 
@@ -25,6 +25,6 @@ GET {{TodoApi_HostAddress}}/api/todoitems/{c4c84832-7d9a-4dc8-9923-df614f6ea466}
 
 ###
 
-GET {{TodoApi_HostAddress}}/api/todoitems
+PUT {{TodoApi_HostAddress}}/api/todoitems/toggle-status/{e906c382-4735-4b84-bc0c-2fc7fa0042be}
 
 ###
