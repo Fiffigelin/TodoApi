@@ -7,7 +7,6 @@ Accept: application/json
 
 POST {{TodoApi_HostAddress}}/api/todoitems
 Content-Type: application/json
-
 {
   "name": "todo",
   "description": "Detta är en todo"
@@ -23,6 +22,18 @@ GET {{TodoApi_HostAddress}}/api/todoitems/{c4c84832-7d9a-4dc8-9923-df614f6ea466}
 
 ###
 
-PUT {{TodoApi_HostAddress}}/api/todoitems/toggle-status/{e906c382-4735-4b84-bc0c-2fc7fa0042be}
+PUT {{TodoApi_HostAddress}}/api/todoitems/toggle-status/{2bac7d3f-eee0-49d8-870c-ac995d7bcbc8}
+
+###
+
+PUT {{TodoApi_HostAddress}}/api/todoitems/{2bac7d3f-eee0-49d8-870c-ac995d7bcbc8}
+Content-Type: application/json
+{
+  "name": "ändrad todo",
+  "description": "Detta är en ändrad todo"
+}
+
+###
+DELETE {{TodoApi_HostAddress}}/api/todoitems/{2bac7d3f-eee0-49d8-870c-ac995d7bcbc8}
 
 ###

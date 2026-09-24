@@ -41,13 +41,8 @@ public class TodoItemsController : ControllerBase
     // PUT: api/TodoItem/{id}
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem(Guid? id, PutTodoItemDTO todoDTO)
+    public async Task<IActionResult> PutTodoItem(Guid? id, TodoItemDTO todoDTO)
     {
-        if (id != todoDTO.Id)
-        {
-            return BadRequest();
-        }
-
         var todoItem = await _context.TodoItems.FindAsync(id);
         if (todoItem == null)
         {
@@ -66,7 +61,7 @@ public class TodoItemsController : ControllerBase
             return NotFound();
         }
 
-        return NoContent();
+        return Ok(ItemToViewModel(todoItem));
     }
 
     [HttpPut("toggle-status/{id}")]
@@ -82,13 +77,13 @@ public class TodoItemsController : ControllerBase
         todo.IsComplete = !todo.IsComplete;
         await _context.SaveChangesAsync();
 
-        return Ok(todo);
+        return Ok(ItemToViewModel(todo));
     }
 
     // POST: api/TodoItem
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<TodoItemViewModel>> PostTodoItem(PostTodoItemDTO todoDTO)
+    public async Task<ActionResult<TodoItemViewModel>> PostTodoItem(TodoItemDTO todoDTO)
     {
         var todoItem = new TodoItem
         {
