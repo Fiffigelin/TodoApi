@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getTodos, toggleStatus } from "../todo-query";
-import type { Todo } from "../types";
+import { getTodos, toggleStatus, postTodo, putTodo } from "../todo-query";
+import type { Todo, TodoDTO } from "../types";
 
 export const useTodos = () => {
 	const [todos, setTodos] = useState<Todo[]>([]);
@@ -37,10 +37,49 @@ export const useTodos = () => {
 		}
 	};
 
+	// ej testad
+	const createTodo = async (dto: TodoDTO): Promise<Todo | undefined> => {
+		try {
+			const data = await postTodo(dto);
+
+			if (data) {
+				setTodos((prev) => [...prev, data]);
+			}
+
+			return data;
+		} catch (error) {
+			console.error(error);
+			return undefined;
+		}
+	};
+
+	// ej testad
+	const updateTodo = async (
+		id: string,
+		dto: TodoDTO,
+	): Promise<Todo | undefined> => {
+		try {
+			const data = await putTodo(id, dto);
+
+			if (data) {
+				setTodos((todos) =>
+					todos.map((todo) => (todo.id === id ? data : todo)),
+				);
+			}
+
+			return data;
+		} catch (error) {
+			console.error(error);
+			return undefined;
+		}
+	};
+
 	return {
 		todos,
 		isLoading,
 		handleLoadData,
 		handleToggleStatus,
+		createTodo,
+		updateTodo,
 	};
 };

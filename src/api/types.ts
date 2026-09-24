@@ -4,3 +4,8 @@ export type Todo = {
 	description?: string;
 	isComplete: boolean;
 };
+
+export type TodoDTO = {
+	name: string;
+	description?: string;
+};

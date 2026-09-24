@@ -9,8 +9,8 @@ import { Checkbox } from "@mui/material";
 
 type CardProps = {
 	todo: Todo;
-	handleTodoStatus?: () => void;
-	handleTodoEdit?: () => void;
+	// handleTodoEdit: (id: string, dto: TodoDTO) => Promise<Todo | undefined>;
+	// handleDeleteEdit: (id: string) => void;
 	handleToggleStatus: (id: string) => Promise<Todo | undefined>;
 };
 

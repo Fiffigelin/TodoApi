@@ -2,9 +2,16 @@ import { useEffect } from "react";
 import "./App.css";
 import { useTodos } from "./api/hooks/use-todos";
 import TodoCard from "./components/todo-card";
+// import type { TodoDTO } from "./api/types";
+
+// const INIT_DTO: TodoDTO = {
+// 	name: "",
+// 	description: "",
+// };
 
 function App() {
 	const { todos, isLoading, handleLoadData, handleToggleStatus } = useTodos();
+	// const [dto, setDto] = useState<TodoDTO>(INIT_DTO);
 
 	useEffect(() => {
 		handleLoadData();
